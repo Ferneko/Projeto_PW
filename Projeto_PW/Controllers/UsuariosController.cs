@@ -8,17 +8,19 @@ namespace Projeto_PW.Controllers
 {
     public class UsuariosController : Controller
     {
-        //Classe Construtor
-        public UsuariosController()
-        {
+        //Objeto do contexto do banco
+        private readonly Contexto banco;
 
+        //Classe Construtor
+        public UsuariosController(Contexto _db)
+        {
+            banco = _db;
         }
 
         // GET: UsuariosController
         public ActionResult Index()
         {
-            List<Usuario> lista = new List<Usuario>();
-            return View();
+            return View(banco.USUARIOS.ToList());
         }
 
         // GET: UsuariosController/Create
@@ -31,8 +33,9 @@ namespace Projeto_PW.Controllers
         [HttpPost]
         public ActionResult Create(Usuario dadosTela)
         {
-       
-       
+
+                banco.USUARIOS.Add(dadosTela);
+                banco.SaveChanges();    
                 return RedirectToAction("index");
           
         }
